@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block title_block %}
+    User Details
+{% endblock  %}
+
+{% block body_block %} 
+
+<h2>Username: {{user_object.username}}</h2>
+<h3>Email: {{ user_object.email }}</h3>
+<h4>First Name: {{ user_object.first_name }}</h4>
+<h5>Last Name: {{ user_object.last_name }}</h5>
+
+<a href="{% url 'app_auth:delete_user' pk=user_object.pk %}">Delete Account</a>
+
+
+{% endblock  %}
