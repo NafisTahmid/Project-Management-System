@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+
+{% block title_block %}
+    All Projects
+{% endblock  %}
+
+{% block body_block %}
+    <ul>
+        {% for project in projects %}
+            <li>Project name: <b><a href="{% url 'app_management:project_details' pk=project.pk%}">{{project.name}}</a></b>, created by <i>{{project.owner}}</i></li>
+        {% endfor %}
+  </ul>
+{% endblock  %}

@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% load crispy_forms_tags %}
+{% block title_block %}
+ Update Task
+{% endblock  %}
+
+{% block body_block %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-warning btn-sm">Update Task</button>  <!-- Redirect to task list -->
+    </form>
+{% endblock  %}

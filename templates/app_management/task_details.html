@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block title_block %}
+    Task Details
+{% endblock  %}
+
+{% block body_block %}
+    <h3>Task name: {{ task.title }} </h3>
+    <br>
+    <small>Assinged under: {{ task.project.name }}</small>
+    <br>
+    <small>Assigned to: {{ task.assigned_to }}</small>
+    <p>{{ task.description }}</p>
+    <p>Priority: {{task.priority}}</p>
+    <p>Status: {{ task.status }}</p>
+    <small>Created at: {{ task.created_at }}</small>
+    <br>
+    <small>Due date: {{ task.due_date }}</small>
+
+{% endblock  %}
