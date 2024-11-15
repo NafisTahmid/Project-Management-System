@@ -10,6 +10,8 @@ from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 # Tokens
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken  # For JWT Token Authentication
@@ -83,3 +85,16 @@ def delete_user(request, pk):
 def logout_page(request):
     logout(request)
     return HttpResponseRedirect(reverse('app_auth:login'))
+
+@login_required
+@csrf_exempt
+def change_password(request):
+    form = PasswordChangeForm(request.user)
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            return HttpResponseRedirect(reverse('app_auth:user_details'))
+
+    return render(request, 'App_auth/change_password.html', {'form':form})
