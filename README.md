@@ -53,7 +53,7 @@ virtualenv venv
 On Windows, you may need to use:
 python -m venv venv
 
-2. Activate the Virtual Environment
+### 2. Activate the Virtual Environment
 Now, activate the virtual environment:
 
 For Windows:
