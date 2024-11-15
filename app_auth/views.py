@@ -95,6 +95,6 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            return HttpResponseRedirect(reverse('app_auth:user_details'))
+            return HttpResponseRedirect(reverse('app_auth:login'))
 
     return render(request, 'App_auth/change_password.html', {'form':form})
