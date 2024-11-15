@@ -103,3 +103,9 @@ For example:
 
 ```bash
 pip install crispy-forms crispy-bootstrap5
+
+## Step 6: Run the Development Server
+Once all dependencies are installed, and the database is set up, start the development server:
+
+```bash
+python manage.py runserver
