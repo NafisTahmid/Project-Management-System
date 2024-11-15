@@ -168,6 +168,11 @@ The base URL for all the API endpoints is:
 - **Description:** This endpoint logs the user out.
 - **Request Body:** None (Logout action does not require a body)
 
+### POST /change_password
+- **Endpoint:** `api/users/change_password/`
+- **Method:** POST
+- **Description:** This endpoint changes user password
+
 ### GET /user-details/{pk}
 - **Endpoint:** `/api/users/user-details/{pk}/`
 - **Method:** GET
