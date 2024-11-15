@@ -25,12 +25,13 @@ Before starting, make sure you have the following installed:
     python -m venv venv
     ```
 
-2. Activate the Virtual Environment:
+2. Navigate to virtual env directory and activate the Virtual Environment:
 
     - For **Windows**:
 
       ```bash
-      .\venv\Scripts\activate
+      cd venv
+      source Scripts/activate
       ```
 
     - For **macOS/Linux**:
