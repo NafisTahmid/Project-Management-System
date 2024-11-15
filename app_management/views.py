@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from app_management.models import Projects, Tasks
-from app_management.forms import CreateProjectForm, CreateTaskForm
+from app_management.models import Projects, Tasks, Comments
+from app_management.forms import CreateProjectForm, CreateTaskForm, CommentForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from app_management.models import Projects
+from app_management.serializers import ProjectsSerializer, ProjectMembersSerializer, TasksSerializer, CommentsSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
@@ -17,7 +19,7 @@ class ProjectsList(ListView, LoginRequiredMixin):
     context_object_name = "projects"
     template_name = "app_management/all_projects.html"
 
-
+@csrf_exempt
 @login_required
 def create_project(request):
     form = CreateProjectForm()
@@ -35,6 +37,7 @@ class ProjectDetails(DetailView, LoginRequiredMixin):
     context_object_name = "project"
     template_name = "app_management/project_details.html"
 
+@csrf_exempt  
 @login_required
 def update_project(request, pk):
     project = Projects.objects.get(pk=pk)
@@ -48,6 +51,7 @@ def update_project(request, pk):
             return HttpResponseRedirect(reverse('app_management:update_project', kwargs={'pk':pk}))
     return render(request, 'app_management/update_project.html', {'form':form})
 
+@csrf_exempt
 @login_required
 def delete_project(request, pk):
     project = Projects.objects.get(pk=pk)
@@ -57,6 +61,7 @@ def delete_project(request, pk):
     
 
 # Task section
+@csrf_exempt
 @login_required
 def create_task(request, pk):
     project_object = Projects.objects.get(pk=pk)
@@ -77,12 +82,24 @@ class ListAllTasks(ListView, LoginRequiredMixin):
     context_object_name = "tasks"
     template_name = "app_management/project_details.html"
     
-class TaskDetails(DetailView, LoginRequiredMixin):
-    model = Tasks
-    context_object_name = "task"
-    template_name = "app_management/task_details.html"
+@login_required
+def task_details(request,pk):
+    task = Tasks.objects.get(pk=pk)
+
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(data = request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.user = request.user
+            comment.save()
+            return HttpResponseRedirect(reverse('app_management:task_details', kwargs={'pk':pk}))
+    return render(request, 'app_management/task_details.html', context={'task':task, 'form':form})
 
 
+
+@csrf_exempt
 @login_required
 def update_task(request, pk, project_pk):
     task_object = Tasks.objects.get(pk=pk)
@@ -98,9 +115,50 @@ def update_task(request, pk, project_pk):
             return HttpResponseRedirect(reverse('app_management:project_details', kwargs={'pk':project_pk}))
     return render(request, 'app_management/update_task.html', context={'form':form})
 
+@csrf_exempt
 @login_required
 def delete_task(request, pk):
     task = Tasks.objects.get(pk=pk)
     if task is not None:
         task.delete()
+        return HttpResponseRedirect(reverse('app_management:home'))
+    
+
+# Comments section
+
+@csrf_exempt
+@login_required
+def post_comment(request, pk):
+    task = Tasks.objects.get(pk=pk)
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(data = request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.user = request.user
+            comment.save()
+            return HttpResponseRedirect(reverse('app_management:task_details', kwargs={'pk':pk}))
+    return render(request, 'app_management/post_comment.html', context={'form':form})
+@login_required
+def comment_details(request, pk, task_pk):
+    comment = Comments.objects.get(pk=pk)
+    task = Tasks.objects.get(pk=task_pk)
+    form = CommentForm(instance = comment)
+    if request.method == 'POST':
+        form = CommentForm(data = request.POST, instance=comment)
+        if form.is_valid():
+            comment_object = form.save(commit=False)
+            comment_object.task = task
+            comment_object.user = request.user
+            comment_object.save()
+            return HttpResponseRedirect(reverse('app_management:task_details', kwargs={'pk':task_pk}))
+    return render(request, 'app_management/comment_details.html', context={'comment':comment, 'form':form})
+
+@csrf_exempt
+@login_required
+def delete_comment(request, pk):
+    comment = Comments.objects.get(pk=pk)
+    if comment is not None:
+        comment.delete()
         return HttpResponseRedirect(reverse('app_management:home'))

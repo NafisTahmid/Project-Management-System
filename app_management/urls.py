@@ -11,7 +11,10 @@ urlpatterns = [
     path('delete-project/<pk>', views.delete_project, name="delete_project"),
     path('create-task/<pk>', views.create_task, name="create_task"),
     path('tasks/',views.ListAllTasks.as_view(), name="all_tasks"),
-    path('task-details/<pk>', views.TaskDetails.as_view(), name="task_details"),
+    path('task-details/<pk>', views.task_details, name="task_details"),
     path('update-task/<int:project_pk>/<int:pk>/', views.update_task, name="update_task"),
-    path('delete-task/<pk>', views.delete_task, name="delete_task")
+    path('delete-task/<pk>', views.delete_task, name="delete_task"),
+    path('comment-details/<int:task_pk>/<int:pk>', views.comment_details, name="comment_details"),
+    path('delete-comment/<pk>', views.delete_comment, name="delete_comment"),
+    path('post-comment/<pk>', views.post_comment, name="post_comment")
 ]

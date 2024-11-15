@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% load crispy_forms_tags %}
+{% block title_block %}
+    Comment Details
+{% endblock  %}
+
+{% block body_block %}
+    <p>{{ comment.content }}</p>
+    <small>Posted by: @{{ comment.user.username }} - {{ comment.created_at }}</small>
+    <hr>
+    {% if comment.user.username == user.username %}
+       
+        <div class="row">
+            <div class="col-sm-9">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-success btn-sm">Update Comment</button>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <a href="{% url 'app_management:delete_comment' pk=comment.pk %}" class="btn btn-danger btn-sm mt-3">Delete</a>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock  %}

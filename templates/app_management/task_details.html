@@ -1,4 +1,5 @@
 {% extends "index.html" %}
+{% load crispy_forms_tags %}
 {% block title_block %}
     Task Details
 {% endblock  %}
@@ -15,5 +16,22 @@
     <small>Created at: {{ task.created_at }}</small>
     <br>
     <small>Due date: {{ task.due_date }}</small>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6">
+            <h6>Post a comment: </h6>
+            <a class="btn btn-success btn-sm" href="{% url 'app_management:post_comment' pk=task.pk %}">Post a comment</a>
+           
+        </div>
+        <div class="col-sm-6">
+            <h6>User comments: </h6>
+            {% for comment in task.task_comments.all %}
+                <p class="mt-5"><a href="{% url 'app_management:comment_details' task_pk=task.pk pk=comment.pk %}">{{comment.content}}</a></p>
+                <p>Posted by: <small>@{{comment.user.username}} - {{ comment.created_at }}</small></p>
+            {% endfor %}
+            
+        </div>
+    </div>
+   
 
 {% endblock  %}

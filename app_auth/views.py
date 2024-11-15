@@ -9,12 +9,13 @@ from django.contrib.auth.models import User
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-
+from django.views.decorators.csrf import csrf_exempt
 # Tokens
 from django.http import JsonResponse
 from rest_framework_simplejwt.tokens import RefreshToken  # For JWT Token Authentication
 from rest_framework.authtoken.models import Token  # F
 # Create your views here.
+@csrf_exempt
 def registration(request):
     form = RegistrationForm()
     if request.method == 'POST':
@@ -26,6 +27,7 @@ def registration(request):
             return HttpResponseRedirect(reverse('app_management:home'))
     return render(request, 'app_auth/register.html', context={'form':form})
 
+@csrf_exempt
 def login_page(request):
     form = LoginForm()
     if request.method == 'POST':
@@ -48,6 +50,7 @@ def login_page(request):
     return render(request, 'app_auth/login.html', context={'form':form})
 
 @login_required
+@csrf_exempt
 def update_user(request, pk):
     user_object = User.objects.get(pk=pk)
 
@@ -61,12 +64,14 @@ def update_user(request, pk):
 
 
 @login_required
+@csrf_exempt
 def user_details(request, pk):
     user_object = User.objects.get(pk=pk)
     return render(request, 'app_auth/user_profile.html', context={'user_object':user_object})
 
 
 @login_required
+@csrf_exempt
 def delete_user(request, pk):
     user_object = get_object_or_404(User, pk=pk)
     user_object.delete()
@@ -74,6 +79,7 @@ def delete_user(request, pk):
 
 
 @login_required
+@csrf_exempt
 def logout_page(request):
     logout(request)
     return HttpResponseRedirect(reverse('app_auth:login'))
