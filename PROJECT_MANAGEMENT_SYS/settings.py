@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     # other apps
     'rest_framework_simplejwt',
+    'drf_yasg'
 ]
 
 REST_FRAMEWORK = {
