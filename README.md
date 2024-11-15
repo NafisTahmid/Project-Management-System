@@ -88,7 +88,7 @@ Before starting, make sure you have the following installed:
 2. Create a superuser to access the Django admin panel (optional):
 
     ```bash
-    python manage.py createsuperuser
+    winpty python manage.py createsuperuser
     ```
 
     Follow the prompts to create the admin user.
