@@ -103,10 +103,17 @@ For example:
 
 ```bash
 pip install crispy-forms crispy-bootstrap5
+```
 
 ## Step 6: Run the development server
 Once all dependencies are installed, and the database is set up, start the development server:
 
   ```bash
-    python manage.py runserver
-    ```
+  python manage.py runserver
+  ```
+## Step 7: Access the Admin Panel (Optional)
+If you created a superuser, you can access the Django admin panel by visiting:
+
+```bash
+http://127.0.0.1:8000/admin/
+```
