@@ -17,25 +17,7 @@ Before starting, make sure you have the following installed:
 
 ---
 
-## Step 1: Clone the Repository
-
-1. Clone the GitHub repository to your local machine:
-
-    ```bash
-    git clone https://github.com/yourusername/yourrepository.git
-    ```
-
-    Replace `yourusername` and `yourrepository` with your actual GitHub username and repository name.
-
-2. Navigate to the project directory:
-
-    ```bash
-    cd yourrepository
-    ```
-
----
-
-## Step 2: Create a Virtual Environment
+## Step 1: Create a Virtual Environment
 
 1. Create a Virtual Environment for the project:
 
@@ -59,6 +41,27 @@ Before starting, make sure you have the following installed:
 
     You should see `(venv)` at the beginning of your command line, indicating that the virtual environment is active.
 
+---
+
+## Step 2: Clone the Repository
+
+1. Navigate inside inside your virtual env and clone the GitHub repository to your local machine:
+
+    ```bash
+     git clone https://github.com/NafisTahmid/Project-Management-System.git
+
+
+
+
+    ```
+
+    Replace `yourusername` and `yourrepository` with your actual GitHub username and repository name.
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd your repository
+    ```
 ---
 
 ## Step 3: Install Project Dependencies
